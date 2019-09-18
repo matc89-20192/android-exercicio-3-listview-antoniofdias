@@ -33,6 +33,15 @@ public class MainActivity extends AppCompatActivity {
         addTarefa = (Button) findViewById(R.id.buttonAdicionar);
         removeFirstTarefa = (Button) findViewById(R.id.buttonRemover);
         removeFirstTarefa.setEnabled(false);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                tarefas.remove(position);
+                if (tarefas.size() == 0) removeFirstTarefa.setEnabled(false);
+                listAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     public void adicionar(View V) {
