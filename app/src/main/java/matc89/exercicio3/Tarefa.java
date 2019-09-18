@@ -23,4 +23,9 @@ public class Tarefa implements Comparable {
     public int compareTo(@NonNull Object o) {
         return prioridade - ((Tarefa)o).getPrioridade();
     }
+
+    @Override
+    public String toString() {
+        return descricao + ' ' + prioridade;
+    }
 }

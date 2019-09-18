@@ -3,10 +3,11 @@ package matc89.exercicio3;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-//import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,17 +56,24 @@ public class MainActivity extends AppCompatActivity {
         Tarefa createdTarefa = null;
         if (priority > 10 || priority < 1) {
             avaliability = false;
+            Toast torradin = Toast.makeText(getApplicationContext(),
+                    "A prioridade deve estar entre 1 e 10.",
+                    Toast.LENGTH_SHORT);
+            torradin.show();
         }
         else {
             for (Tarefa t : tarefas) {
-                if (t.getDescricao().equals(description)) avaliability = false;
+                if (t.getDescricao().equals(description)) {
+                    avaliability = false;
+                    Toast torradin = Toast.makeText(getApplicationContext(),
+                            "Tarefa já cadastrada.",
+                            Toast.LENGTH_SHORT);
+                    torradin.show();
+                    break;
+                }
             }
         }
         if (avaliability) createdTarefa = new Tarefa(description, priority);
         return createdTarefa;
-    }
-
-    public int getTarefasSize() {
-        return tarefas.size();
     }
 }

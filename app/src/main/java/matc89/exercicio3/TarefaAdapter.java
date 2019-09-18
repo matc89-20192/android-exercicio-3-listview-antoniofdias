@@ -9,44 +9,43 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+
 public class TarefaAdapter extends ArrayAdapter<Tarefa> {
-    private ArrayList<Tarefa> tarefas = new ArrayList<Tarefa>();
+    private ArrayList<Tarefa> tarefas;
+
+    private static class ViewHolder {
+        private TextView descriptionText;
+        private TextView priorityText;
+    }
 
     public TarefaAdapter(Context context, ArrayList<Tarefa> tarefas) {
         super(context, 0, tarefas);
         this.tarefas = tarefas;
     }
 
-    private static class ViewHolder {
-        private TextView textDescricao;
-        private TextView textPrioridade;
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
+        ViewHolder holder;
 
-        Tarefa task = getItem(position);
-        if (task != null) {
-            if (view == null) {
-                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(android.R.layout.simple_list_item_2, null);
-                ViewHolder holder = new ViewHolder();
-                holder.textDescricao = (TextView)view.findViewById(android.R.id.text1);
-                holder.textPrioridade = (TextView)view.findViewById(android.R.id.text2);
-                view.setTag(holder);
-            }
-            ViewHolder holder = (ViewHolder)view.getTag();
-            holder.textDescricao.setText(task.getDescricao());
-            holder.textPrioridade.setText(task.getPrioridade());
+        if (convertView == null) {
+            convertView = LayoutInflater.from(this.getContext())
+                    .inflate(android.R.layout.simple_list_item_2, parent, false);
+
+            holder = new ViewHolder();
+            holder.descriptionText = (TextView) convertView.findViewById(android.R.id.text1);
+            holder.priorityText = (TextView) convertView.findViewById(android.R.id.text2);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        return view;
+        Tarefa item = getItem(position);
+        if (item!= null) {
+            holder.descriptionText.setText(String.format("%s", item.getDescricao()));
+            holder.priorityText.setText(String.format("Prioridade: %d", item.getPrioridade()));
+        }
+
+        return convertView;
     }
-
-    @Override
-    public int getCount() {return tarefas.size();}
-
-    @Override
-    public Tarefa getItem(int position) { return tarefas.get(position); }
 }
